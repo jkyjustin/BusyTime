@@ -1,0 +1,46 @@
+package MainApp;
+
+/**
+ * Created by jkyju_000 on 5/6/2016.
+ */
+public class Entry implements Comparable<Entry>{
+    private int datey, datem, dated, timeh, timem, serviceTime;
+
+    public Entry(int datey, int datem, int dated, int timeh, int timem, int serviceTime) {
+        this.datey = datey;
+        this.datem = datem;
+        this.dated = dated;
+        this.timeh = timeh;
+        this.timem = timem;
+        this.serviceTime = serviceTime;
+    }
+
+    public int getDatey() {
+        return datey;
+    }
+
+    public int getDatem() {
+        return datem;
+    }
+
+    public int getDated() {
+        return dated;
+    }
+
+    public int getTimeh() {
+        return timeh;
+    }
+
+    public int getTimem() {
+        return timem;
+    }
+
+    public int getServiceTime() {
+        return serviceTime;
+    }
+
+    @Override
+    public int compareTo(Entry other) {
+        return 0;
+    }
+}
