@@ -20,7 +20,6 @@ public class SQLParser {
                     .getConnection("jdbc:postgresql://localhost:5432/postgres",
                             "postgres", "adfadf12");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery( "SELECT * FROM ARRIVALS;" );
@@ -50,7 +49,6 @@ public class SQLParser {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
-        System.out.println("Operation done successfully");
         return entryList;
     }
 }

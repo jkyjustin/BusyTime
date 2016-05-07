@@ -39,8 +39,28 @@ public class Entry implements Comparable<Entry>{
         return serviceTime;
     }
 
+
+    // sortable by:
+    // datey descending
+    // datem descending,
+    // dated descending,
+    // timeh ascending,
+    // timem ascending
+    // no sorting on servicetime, irrelevant to main function whether it is sorted or not.
     @Override
     public int compareTo(Entry other) {
-        return 0;
+        int i = other.datey - this.datey;
+        if (i != 0) return i;
+
+        i = other.datem - this.datem;
+        if (i != 0) return i;
+
+        i = other.dated - this.dated;
+        if (i != 0) return i;
+
+        i = this.timeh - other.timeh;
+        if (i != 0) return i;
+
+        return this.timem - other.timem;
     }
 }
