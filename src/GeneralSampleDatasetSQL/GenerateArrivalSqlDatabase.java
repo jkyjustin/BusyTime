@@ -5,6 +5,9 @@ import java.sql.*;
 /**
  * Created by jkyju_000 on 2/16/2016.
  */
+
+// Populates a Arrival data SQL database by JDBC driver and connection to a local PostgreSQL
+//      server and inserting 80000 random entries
 public class GenerateArrivalSqlDatabase {
     public static void main(String args[]) {
         Connection c = null;

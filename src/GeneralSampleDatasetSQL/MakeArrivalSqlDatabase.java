@@ -7,6 +7,9 @@ import java.sql.Statement;
 /**
  * Created by jkyju_000 on 2/16/2016.
  */
+
+// Connects to local PostgreSQL server and makes a new arrivals database
+
 public class MakeArrivalSqlDatabase {
     public static void main( String args[] )
     {

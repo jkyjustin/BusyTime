@@ -22,7 +22,7 @@ public class SQLParserTest {
     }
 
     @Test
-    public void test1() {
+    public void testParseSQL1() {
         List<Entry> queryOne = parser.parseSQL(2012, 2015, 1, 12, 1, 30, 7, 19);
 
         // 80000 entries exist within generated database -- checks out!
@@ -44,7 +44,7 @@ public class SQLParserTest {
     }
 
     @Test
-    public void test2() {
+    public void testParseSQL2() {
         // 4 entries exist on Dec. 30th, 2015 at 7am -- checks out!
         List<Entry> queryOne = parser.parseSQL(2015, 2015, 12, 12, 30, 30, 7, 7);
         assertEquals(4, queryOne.size());
@@ -64,7 +64,7 @@ public class SQLParserTest {
     }
 
     @Test
-    public void test3() {
+    public void testParseSQL3() {
         // let's test if timeh is being sorted in ascending order
         List<Entry> queryOne = parser.parseSQL(2015, 2015, 12, 12, 30, 30, 7, 8);
 
@@ -81,7 +81,7 @@ public class SQLParserTest {
     }
 
     @Test
-    public void test4() {
+    public void testParseSQL4() {
         // let's test if dated is sorted in descending order
         // grab a list of entries between 2015-12-29 and 2015-12-30 at time 7 to 7:59
         List<Entry> queryOne = parser.parseSQL(2015, 2015, 12, 12, 29, 30, 7, 7);
@@ -98,5 +98,94 @@ public class SQLParserTest {
         assertEquals(7, queryOne.get(4).getTimeh());
         assertEquals(3, queryOne.get(4).getTimem());
         assertEquals(29, queryOne.get(4).getDated());
+    }
+
+    @Test
+    public void testBinEntryList1() {
+        // lets test whether entries can be binned correctly
+        List<Entry> queryOne = parser.parseSQL(2015, 2015, 12, 12, 29, 30, 7, 19);
+        assertEquals(121, queryOne.size());
+
+        List<List<Entry>> binnedList = parser.binEntryList(queryOne);
+        assertEquals(2, binnedList.size());
+
+        // size of first binned list
+        assertEquals(60, binnedList.get(0).size());
+
+        // first entry of first binned list
+        assertEquals(1, binnedList.get(0).get(0).getTimem());
+        assertEquals(6, binnedList.get(0).get(0).getServiceTime());
+        assertEquals(7, binnedList.get(0).get(0).getTimeh());
+        assertEquals(30, binnedList.get(0).get(0).getDated());
+
+        // second entry of first binned list
+        assertEquals(12, binnedList.get(0).get(1).getTimem());
+        assertEquals(4, binnedList.get(0).get(1).getServiceTime());
+        assertEquals(7, binnedList.get(0).get(1).getTimeh());
+        assertEquals(30, binnedList.get(0).get(1).getDated());
+
+        // third entry of first binned list
+        assertEquals(17, binnedList.get(0).get(2).getTimem());
+        assertEquals(6, binnedList.get(0).get(2).getServiceTime());
+        assertEquals(7, binnedList.get(0).get(2).getTimeh());
+        assertEquals(30, binnedList.get(0).get(2).getDated());
+
+        // third LAST entry of first binned list
+        assertEquals(30, binnedList.get(0).get(57).getTimem());
+        assertEquals(10, binnedList.get(0).get(57).getServiceTime());
+        assertEquals(19, binnedList.get(0).get(57).getTimeh());
+        assertEquals(30, binnedList.get(0).get(57).getDated());
+
+        // second LAST entry of first binned list
+        assertEquals(59, binnedList.get(0).get(58).getTimem());
+        assertEquals(5, binnedList.get(0).get(58).getServiceTime());
+        assertEquals(19, binnedList.get(0).get(58).getTimeh());
+        assertEquals(30, binnedList.get(0).get(58).getDated());
+
+        // LAST entry of first binned list
+        assertEquals(59, binnedList.get(0).get(59).getTimem());
+        assertEquals(12, binnedList.get(0).get(59).getServiceTime());
+        assertEquals(19, binnedList.get(0).get(59).getTimeh());
+        assertEquals(30, binnedList.get(0).get(59).getDated());
+
+
+        // size of second binned list
+        assertEquals(61, binnedList.get(1).size());
+
+        // first entry of second binned list
+        assertEquals(3, binnedList.get(1).get(0).getTimem());
+        assertEquals(12, binnedList.get(1).get(0).getServiceTime());
+        assertEquals(7, binnedList.get(1).get(0).getTimeh());
+        assertEquals(29, binnedList.get(1).get(0).getDated());
+
+        // second entry of second binned list
+        assertEquals(38, binnedList.get(1).get(1).getTimem());
+        assertEquals(8, binnedList.get(1).get(1).getServiceTime());
+        assertEquals(7, binnedList.get(1).get(1).getTimeh());
+        assertEquals(29, binnedList.get(1).get(1).getDated());
+
+        // third entry of second binned list
+        assertEquals(40, binnedList.get(1).get(2).getTimem());
+        assertEquals(4, binnedList.get(1).get(2).getServiceTime());
+        assertEquals(7, binnedList.get(1).get(2).getTimeh());
+        assertEquals(29, binnedList.get(1).get(2).getDated());
+
+        // third LAST entry of second binned list
+        assertEquals(23, binnedList.get(1).get(58).getTimem());
+        assertEquals(9, binnedList.get(1).get(58).getServiceTime());
+        assertEquals(19, binnedList.get(1).get(58).getTimeh());
+        assertEquals(29, binnedList.get(1).get(58).getDated());
+
+        // second LAST entry of second binned list
+        assertEquals(42, binnedList.get(1).get(59).getTimem());
+        assertEquals(6, binnedList.get(1).get(59).getServiceTime());
+        assertEquals(19, binnedList.get(1).get(59).getTimeh());
+        assertEquals(29, binnedList.get(1).get(59).getDated());
+
+        // LAST entry of second binned list
+        assertEquals(51, binnedList.get(1).get(60).getTimem());
+        assertEquals(8, binnedList.get(1).get(60).getServiceTime());
+        assertEquals(19, binnedList.get(1).get(60).getTimeh());
+        assertEquals(29, binnedList.get(1).get(60).getDated());
     }
 }

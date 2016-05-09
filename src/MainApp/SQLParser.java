@@ -9,6 +9,8 @@ import java.util.List;
 
 public class SQLParser {
 
+    // For each row of the SQL database that meets the criteria given by input,
+    // create Entry for the row and add it to an array list
     public static List<Entry> parseSQL(int startYear, int endYear, int startMonth, int endMonth,
                                        int startDay, int endDay, int startHour, int endHour) {
         List<Entry> entryList = null;
@@ -50,5 +52,31 @@ public class SQLParser {
             System.exit(0);
         }
         return entryList;
+    }
+
+    // Bin Lists of entries by specific date
+    public List<List<Entry>> binEntryList(List<Entry> entryList) {
+        List<Entry> entryListAcc = new ArrayList<>();
+        List<List<Entry>> binList = new ArrayList<>();
+        int dayInt = 0;
+
+        for (Entry e: entryList) {
+            if (e.getDated()!=dayInt) {
+                if (entryListAcc.size()!=0) {
+                    binList.add(entryListAcc);
+                }
+                entryListAcc = new ArrayList<>();
+                dayInt = e.getDated();
+                entryListAcc.add(e);
+            }
+            else if (e.getDated()==dayInt) {
+                entryListAcc.add(e);
+            }
+            if (e.equals(entryList.get(entryList.size()-1))) {
+                binList.add(entryListAcc);
+            }
+
+        }
+        return binList;
     }
 }
